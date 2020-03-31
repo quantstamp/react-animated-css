@@ -100,10 +100,10 @@ export class Animated extends React.Component {
     this.state = props.animateOnMount ? this.getNewState(props) : {};
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const {isVisible} = this.props;
-    if (isVisible !== nextProps.isVisible) {
-      this.setState(this.getNewState({...this.props, ...nextProps}));
+    if (isVisible !== prevProps.isVisible) {
+      this.setState(this.getNewState({...this.props, ...prevProps}));
     }
   }
 
