@@ -97,17 +97,19 @@ const isLteIE9 = (() => {
 export class Animated extends React.Component {
   constructor(props) {
     super(props);
-    this.state = props.animateOnMount ? this.getNewState(props) : {};
+    this.state = props.animateOnMount ? Animated.getNewState(props) : {};
   }
 
-  componentDidUpdate(prevProps) {
-    const {isVisible} = this.props;
-    if (isVisible !== prevProps.isVisible) {
-      this.setState(this.getNewState({...this.props, ...prevProps}));
+  static getDerivedStateFromProps (nextProps, prevState) {
+    const { isVisible: nextIsVisible } = nextProps
+    const { isVisible: prevIsVisible } = prevState
+    if (nextIsVisible !== prevIsVisible) {
+      return Animated.getNewState({...prevState, ...nextProps});
     }
+    return {}
   }
 
-  getNewState = ({
+  static getNewState = ({
                    isVisible,
                    animationIn,
                    animationOut,
